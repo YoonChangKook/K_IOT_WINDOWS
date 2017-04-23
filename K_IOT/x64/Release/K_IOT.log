@@ -1,0 +1,25 @@
+﻿빌드 시작: 2017-04-24 오전 2:28:54
+     1>2 노드의 "D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\K_IOT\K_IOT.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D WIN32 /D _WINSOCK_DEPRECATED_NO_WARNINGS /D NDEBUG /D _WINDOWS /D _USRDLL /D K_IOT_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt K_IOT.cpp
+         K_IOT.cpp
+     1>d:\yoon\robot\videostream\camera_360\k_iot\k_iot\K_IOT.h(64): warning C4251: 'K_IOT::ble_mtx' : class 'std::mutex'에서는 class 'K_IOT'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\mutex(105) : 'std::mutex' 선언을 참조하십시오.
+     1>d:\yoon\robot\videostream\camera_360\k_iot\k_iot\K_IOT.h(78): warning C4251: 'K_IOT::ble_clients' : class 'stdext::hash_map<int,SOCKET,stdext::hash_compare<_Kty,std::less<_Kty>>,std::allocator<std::pair<const _Kty,_Ty>>>'에서는 class 'K_IOT'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=SOCKET
+                 ]
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\x64\Release\K_IOT.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\x64\Release\K_IOT.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\x64\Release\K_IOT.lib" /MACHINE:X64 /DLL x64\Release\K_IOT.obj
+            D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\x64\Release\K_IOT.lib 라이브러리 및 D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\x64\Release\K_IOT.exp 개체를 생성하고 있습니다.
+         코드를 생성하고 있습니다.
+     1>d:\yoon\robot\videostream\camera_360\k_iot\k_iot\k_iot.cpp(213): warning C4715: 'K_IOT::StopIOT' : 모든 제어 경로에서 값을 반환하지는 않습니다.
+         코드를 생성했습니다.
+         K_IOT.vcxproj -> D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\x64\Release\K_IOT.dll
+     1>"D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\K_IOT\K_IOT.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:03.03

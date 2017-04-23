@@ -1,0 +1,20 @@
+﻿빌드 시작: 2017-04-24 오전 2:24:06
+     1>2 노드의 "D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\K_IOT\K_IOT.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D K_IOT_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt K_IOT.cpp
+         K_IOT.cpp
+     1>d:\yoon\robot\videostream\camera_360\k_iot\k_iot\k_iot.h(68): warning C4251: 'K_IOT::ble_mtx' : class 'std::mutex'에서는 class 'K_IOT'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\mutex(105) : 'std::mutex' 선언을 참조하십시오.
+     1>d:\yoon\robot\videostream\camera_360\k_iot\k_iot\k_iot.h(82): warning C4251: 'K_IOT::ble_clients' : class 'stdext::hash_map<int,SOCKET,stdext::hash_compare<_Kty,std::less<_Kty>>,std::allocator<std::pair<const _Kty,_Ty>>>'에서는 class 'K_IOT'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=SOCKET
+                 ]
+     1>d:\yoon\robot\videostream\camera_360\k_iot\k_iot\k_iot.cpp(157): error C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+                 c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1850) : 'inet_addr' 선언을 참조하십시오.
+     1>"D:\Yoon\Robot\VideoStream\Camera_360\K_IOT\K_IOT\K_IOT.vcxproj" 프로젝트를 빌드했습니다(Build 대상). - 실패
+
+빌드하지 못했습니다.
+
+경과 시간: 00:00:00.52
