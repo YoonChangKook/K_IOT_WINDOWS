@@ -4,7 +4,7 @@ K_IOT::K_IOT()
 	: wsa_data({ 0 }), is_wsa_startup(false), ble_mtx(), 
 	sockfd_send(INVALID_SOCKET), sockfd_recv(INVALID_SOCKET), addr_send({ 0 }), addr_recv({ 0 }),
 	ble_listener(INVALID_SOCKET), bth_addr({ 0 }), wsaQuerySet({ 0 }), CSAddrInfo({ 0 }), instanceName(NULL),
-	ble_index(0), ble_clients(), ble_thread(NULL), last_error(K_IOT_ERROR::NOT_IOT_ERROR)
+	ble_index(0), ble_clients(), ble_thread(NULL), udp_thread(NULL), last_error(K_IOT_ERROR::NOT_IOT_ERROR)
 {
 	if (WSAStartup(MAKEWORD(2, 2), &wsa_data))
 	{
@@ -183,10 +183,13 @@ bool K_IOT::StopIOT()
 		closesocket(this->sockfd_recv);
 	if (this->ble_listener != INVALID_SOCKET)
 		closesocket(this->ble_listener);
-	for (std::hash_map<int, SOCKET>::iterator it = this->ble_clients.begin();
-		it != this->ble_clients.end();
-		it++)
-		closesocket(this->ble_clients[it->first]);
+	if (this->ble_clients.empty() == false)
+	{
+		for (std::hash_map<int, SOCKET>::iterator it = this->ble_clients.begin();
+			it != this->ble_clients.end();
+			it++)
+			closesocket(this->ble_clients[it->first]);
+	}
 
 	// finish thread
 	if (this->ble_thread != NULL)
@@ -209,6 +212,7 @@ bool K_IOT::StopIOT()
 	this->ble_index = 0;
 	this->ble_clients.clear();
 	this->last_error = K_IOT_ERROR::NOT_IOT_ERROR;
+	this->ble_mtx.try_lock();
 	this->ble_mtx.unlock();
 }
 
@@ -254,6 +258,16 @@ bool K_IOT::TurnOff(int device_id)
 		return false;
 }
 
+int K_IOT::GetDeviceCount() const
+{
+	return this->ble_clients.size();
+}
+
+K_IOT_ERROR K_IOT::GetLastError() const
+{
+	return this->last_error;
+}
+
 // Thread Functions
 void K_IOT::BLE_ListenFunction()
 {
@@ -268,9 +282,36 @@ void K_IOT::BLE_ListenFunction()
 			this->last_error = K_IOT_ERROR::BLE_ACCEPT_ERROR;
 			return;
 		}
+		// Get device name
+		int temp_id;
+		int recvlen = recv(temp_client, (char *)&temp_id, sizeof(int), MSG_WAITALL);
+
 		ble_mtx.lock();
+		// Erase device
+		if (this->ble_clients.empty() == false)
+		{
+			std::hash_map<int, SOCKET>::iterator it;
+			bool contain = false;
+			for (it = this->ble_clients.begin();
+				it != this->ble_clients.end();
+				it++)
+			{
+				if (it->first == temp_id)
+				{
+					contain = true;
+					break;
+				}
+			}
+			if (contain == true)
+			{
+				closesocket(this->ble_clients[it->first]);
+				this->ble_clients.erase(it->first);
+			}
+		}
+		// Insert new device
 		this->ble_clients.insert(
-			std::hash_map<int, SOCKET>::value_type(this->ble_index++, temp_client));
+			std::hash_map<int, SOCKET>::value_type(temp_id, temp_client));
+		this->ble_index++;
 		ble_mtx.unlock();
 	}
 }
@@ -288,11 +329,18 @@ void K_IOT::UDP_ReceiveFunction()
 			return;
 		}
 
+		printf("UDP Recv Success\n");
+
 		ble_mtx.lock();
-		if (packet.control == 1)
-			TurnOn(packet.device_id);
-		else if (packet.control == 0)
-			TurnOff(packet.device_id);
+		std::hash_map<int, SOCKET>::iterator it = ble_clients.find(packet.device_id);
+		if (it->first == packet.device_id)
+		{
+			if (send(it->second, (const char*)&packet, sizeof(packet), 0) == SOCKET_ERROR)
+				this->last_error = K_IOT_ERROR::BLE_RECV_ERROR;
+			else
+				printf("BLE Send Success\n");
+		}
+
 		ble_mtx.unlock();
 	}
 }

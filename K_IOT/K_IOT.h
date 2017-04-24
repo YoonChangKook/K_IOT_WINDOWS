@@ -19,6 +19,7 @@
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <ws2bth.h>
+#include <string>
 #include <strsafe.h>
 #include <initguid.h>
 
@@ -49,6 +50,7 @@ enum K_IOT_ERROR
 	BLE_ACCEPT_ERROR = 5,
 	UDP_SEND_ERROR = 6,
 	UDP_RECV_ERROR = 7,
+	BLE_RECV_ERROR = 8,
 	NOT_IOT_ERROR = 100
 };
 
@@ -90,6 +92,8 @@ public:
 	bool StopIOT();
 	bool TurnOn(int device_id);
 	bool TurnOff(int device_id);
+	int GetDeviceCount() const;
+	K_IOT_ERROR GetLastError() const;
 };
 
 #endif
